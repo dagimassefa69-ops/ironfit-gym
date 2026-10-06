@@ -1,3 +1,4 @@
+```javascript
 // =====================================================
 // IRONFIT GYM - FULL SCRIPT
 // =====================================================
@@ -63,20 +64,28 @@ function updateThemeIcon() {
 
     if (!icon) return;
 
-    const isLight = document.body.classList.contains("light");
+    const isLight =
+        document.body.classList.contains("light");
 
     if (isLight) {
         icon.className = "fa-solid fa-sun";
         themeBtn.title = "Switch to Dark Mode";
-        themeBtn.setAttribute("aria-label", "Switch to Dark Mode");
+        themeBtn.setAttribute(
+            "aria-label",
+            "Switch to Dark Mode"
+        );
     } else {
         icon.className = "fa-solid fa-moon";
         themeBtn.title = "Switch to Light Mode";
-        themeBtn.setAttribute("aria-label", "Switch to Light Mode");
+        themeBtn.setAttribute(
+            "aria-label",
+            "Switch to Light Mode"
+        );
     }
 }
 
-const savedTheme = localStorage.getItem("theme") || "dark";
+const savedTheme =
+    localStorage.getItem("theme") || "dark";
 
 applyTheme(savedTheme);
 updateThemeIcon();
@@ -86,11 +95,15 @@ if (themeBtn) {
         const isCurrentlyLight =
             document.body.classList.contains("light");
 
-        const newTheme = isCurrentlyLight ? "dark" : "light";
+        const newTheme =
+            isCurrentlyLight ? "dark" : "light";
 
         applyTheme(newTheme);
 
-        localStorage.setItem("theme", newTheme);
+        localStorage.setItem(
+            "theme",
+            newTheme
+        );
 
         updateThemeIcon();
     });
@@ -99,11 +112,20 @@ if (themeBtn) {
 // =====================================================
 // SEARCH SYSTEM
 // =====================================================
-const searchBtn = document.getElementById("searchBtn");
-const searchBox = document.getElementById("searchBox");
-const searchInput = document.getElementById("searchInput");
-const closeSearch = document.getElementById("closeSearch");
-const searchResults = document.getElementById("searchResults");
+const searchBtn =
+    document.getElementById("searchBtn");
+
+const searchBox =
+    document.getElementById("searchBox");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const closeSearch =
+    document.getElementById("closeSearch");
+
+const searchResults =
+    document.getElementById("searchResults");
 
 const searchData = [
     {
@@ -188,11 +210,15 @@ function closeSearchBox() {
 function showSearchResults(query) {
     if (!searchResults) return;
 
-    const text = query.trim().toLowerCase();
+    const text =
+        query.trim().toLowerCase();
 
-    const filtered = searchData.filter(item =>
-        item.title.toLowerCase().includes(text)
-    );
+    const filtered =
+        searchData.filter(item =>
+            item.title
+                .toLowerCase()
+                .includes(text)
+        );
 
     if (filtered.length === 0) {
         searchResults.innerHTML = `
@@ -204,65 +230,84 @@ function showSearchResults(query) {
         return;
     }
 
-    searchResults.innerHTML = filtered
-        .map(item => `
+    searchResults.innerHTML =
+        filtered.map(item => `
             <button
                 type="button"
                 class="search-result-item"
                 data-target="${escapeHTML(item.target)}"
             >
                 <i class="fa-solid ${escapeHTML(item.icon)}"></i>
-                <span>${escapeHTML(item.title)}</span>
+                <span>
+                    ${escapeHTML(item.title)}
+                </span>
             </button>
-        `)
-        .join("");
+        `).join("");
 
     document
         .querySelectorAll(".search-result-item")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const target = button.dataset.target;
+                    const target =
+                        button.dataset.target;
 
-                const section =
-                    document.getElementById(target);
+                    const section =
+                        document.getElementById(
+                            target
+                        );
 
-                closeSearchBox();
+                    closeSearchBox();
 
-                if (section) {
-                    setTimeout(() => {
-                        section.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }, 100);
+                    if (section) {
+                        setTimeout(() => {
+                            section.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start"
+                            });
+                        }, 100);
+                    }
                 }
-            });
+            );
         });
 }
 
 if (searchBtn) {
-    searchBtn.addEventListener("click", openSearch);
+    searchBtn.addEventListener(
+        "click",
+        openSearch
+    );
 }
 
 if (closeSearch) {
-    closeSearch.addEventListener("click", closeSearchBox);
+    closeSearch.addEventListener(
+        "click",
+        closeSearchBox
+    );
 }
 
 if (searchInput) {
-    searchInput.addEventListener("input", () => {
-        showSearchResults(searchInput.value);
-    });
+    searchInput.addEventListener(
+        "input",
+        () => {
+            showSearchResults(
+                searchInput.value
+            );
+        }
+    );
 }
 
-document.addEventListener("keydown", event => {
-
-    if (event.key === "Escape") {
-        closeSearchBox();
+document.addEventListener(
+    "keydown",
+    event => {
+        if (event.key === "Escape") {
+            closeSearchBox();
+        }
     }
-
-});
+);
 
 // =====================================================
 // BOOKING FORM
@@ -297,7 +342,8 @@ if (bookingForm) {
     }
 
     if (dateInput) {
-        dateInput.min = getTodayString();
+        dateInput.min =
+            getTodayString();
     }
 
     bookingForm.addEventListener(
@@ -366,13 +412,39 @@ if (bookingForm) {
 
                             headers: {
                                 "Content-Type":
+                                    "application/json",
+                                "Accept":
                                     "application/json"
                             },
 
                             body:
-                                JSON.stringify(formData)
+                                JSON.stringify(
+                                    formData
+                                )
                         }
                     );
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+                if (!contentType.includes(
+                    "application/json"
+                )) {
+
+                    const text =
+                        await response.text();
+
+                    console.error(
+                        "Server returned:",
+                        text
+                    );
+
+                    throw new Error(
+                        "Server returned an invalid response."
+                    );
+                }
 
                 const data =
                     await response.json();
@@ -385,7 +457,6 @@ if (bookingForm) {
                 }
 
                 if (bookingMessage) {
-
                     bookingMessage.textContent =
                         "Booking submitted successfully! ✅";
 
@@ -408,7 +479,6 @@ if (bookingForm) {
                 );
 
                 if (bookingMessage) {
-
                     bookingMessage.textContent =
                         error.message ||
                         "Server connection failed.";
@@ -453,11 +523,11 @@ if (statusForm) {
             if (!email || !phone) {
 
                 if (statusResult) {
-
                     statusResult.innerHTML = `
                         <div class="status-card">
                             <p>
-                                Please enter your email and phone.
+                                Please enter your
+                                email and phone.
                             </p>
                         </div>
                     `;
@@ -467,26 +537,64 @@ if (statusForm) {
             }
 
             if (statusResult) {
-
                 statusResult.innerHTML = `
                     <div class="status-card">
-                        <p>Checking booking...</p>
+                        <p>
+                            Checking booking...
+                        </p>
                     </div>
                 `;
             }
 
             try {
 
+                const statusURL =
+                    `${API_BASE}/api/bookings/status?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
+
+                console.log(
+                    "STATUS URL:",
+                    statusURL
+                );
+
                 const response =
                     await fetch(
-                        `${API_BASE}/api/bookings/status?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`
+                        statusURL,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
                     );
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+                if (!contentType.includes(
+                    "application/json"
+                )) {
+
+                    const text =
+                        await response.text();
+
+                    console.error(
+                        "Status server returned:",
+                        text
+                    );
+
+                    throw new Error(
+                        "Server returned an invalid response."
+                    );
+                }
 
                 const data =
                     await response.json();
 
                 if (!response.ok) {
-
                     throw new Error(
                         data.message ||
                         "Booking not found."
@@ -500,27 +608,36 @@ if (statusForm) {
 
                             <p>
                                 <strong>Name:</strong>
-                                ${escapeHTML(data.name)}
+                                ${escapeHTML(
+                                    data.name
+                                )}
                             </p>
 
                             <p>
                                 <strong>Program:</strong>
-                                ${escapeHTML(data.program)}
+                                ${escapeHTML(
+                                    data.program
+                                )}
                             </p>
 
                             <p>
                                 <strong>Date:</strong>
-                                ${escapeHTML(data.date)}
+                                ${escapeHTML(
+                                    data.date
+                                )}
                             </p>
 
                             <p>
                                 <strong>Time:</strong>
-                                ${escapeHTML(data.time)}
+                                ${escapeHTML(
+                                    data.time
+                                )}
                             </p>
 
                             <span class="status-badge">
                                 ${escapeHTML(
-                                    data.status || "Pending"
+                                    data.status ||
+                                    "Pending"
                                 )}
                             </span>
 
@@ -560,10 +677,22 @@ function escapeHTML(value) {
 
     return String(value ?? "")
         .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 // =====================================================
@@ -572,19 +701,19 @@ function escapeHTML(value) {
 const topBtn =
     document.getElementById("topBtn");
 
-window.addEventListener("scroll", () => {
+window.addEventListener(
+    "scroll",
+    () => {
 
-    if (!topBtn) return;
+        if (!topBtn) return;
 
-    if (window.scrollY > 500) {
-
-        topBtn.classList.add("show");
-
-    } else {
-
-        topBtn.classList.remove("show");
+        if (window.scrollY > 500) {
+            topBtn.classList.add("show");
+        } else {
+            topBtn.classList.remove("show");
+        }
     }
-});
+);
 
 if (topBtn) {
 
@@ -629,3 +758,4 @@ document
 console.log(
     "IRONFIT GYM website JavaScript loaded successfully! ✅"
 );
+```
