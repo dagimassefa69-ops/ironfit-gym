@@ -1,3 +1,4 @@
+const API_BASE = "https://ironfit-gym.onrender.com";
 {
   "name": "ironfit-gym",
   "version": "1.0.0",
