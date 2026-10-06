@@ -1,6 +1,6 @@
 ```javascript
 // =====================================================
-// IRONFIT GYM - FULL SCRIPT
+// IRONFIT GYM - FINAL FULL SCRIPT
 // =====================================================
 
 // =====================================================
@@ -9,58 +9,101 @@
 const API_BASE = "https://ironfit-gym.onrender.com";
 
 // =====================================================
+// HELPER - ESCAPE HTML
+// =====================================================
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// =====================================================
 // MOBILE MENU
 // =====================================================
 const menuBtn = document.getElementById("menuBtn");
 const navbar = document.getElementById("navbar");
 
+function closeMobileMenu() {
+    if (!navbar) return;
+
+    navbar.classList.remove("active");
+
+    if (menuBtn) {
+        const icon = menuBtn.querySelector("i");
+
+        if (icon) {
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+        }
+    }
+}
+
 if (menuBtn && navbar) {
+
     menuBtn.addEventListener("click", () => {
+
         navbar.classList.toggle("active");
 
         const icon = menuBtn.querySelector("i");
 
         if (icon) {
-            const isActive = navbar.classList.contains("active");
 
-            icon.classList.toggle("fa-xmark", isActive);
-            icon.classList.toggle("fa-bars", !isActive);
+            const active =
+                navbar.classList.contains("active");
+
+            icon.classList.toggle(
+                "fa-xmark",
+                active
+            );
+
+            icon.classList.toggle(
+                "fa-bars",
+                !active
+            );
         }
     });
 
-    document.querySelectorAll("#navbar a").forEach(link => {
-        link.addEventListener("click", () => {
-            navbar.classList.remove("active");
+    document
+        .querySelectorAll("#navbar a")
+        .forEach(link => {
 
-            const icon = menuBtn.querySelector("i");
+            link.addEventListener(
+                "click",
+                closeMobileMenu
+            );
 
-            if (icon) {
-                icon.classList.remove("fa-xmark");
-                icon.classList.add("fa-bars");
-            }
         });
-    });
 }
 
 // =====================================================
 // DARK / LIGHT MODE
 // =====================================================
-const themeBtn = document.getElementById("themeBtn");
+const themeBtn =
+    document.getElementById("themeBtn");
 
 function applyTheme(theme) {
+
     if (theme === "light") {
+
         document.body.classList.add("light");
         document.body.classList.remove("dark");
+
     } else {
+
         document.body.classList.add("dark");
         document.body.classList.remove("light");
     }
 }
 
 function updateThemeIcon() {
+
     if (!themeBtn) return;
 
-    const icon = themeBtn.querySelector("i");
+    const icon =
+        themeBtn.querySelector("i");
 
     if (!icon) return;
 
@@ -68,15 +111,26 @@ function updateThemeIcon() {
         document.body.classList.contains("light");
 
     if (isLight) {
-        icon.className = "fa-solid fa-sun";
-        themeBtn.title = "Switch to Dark Mode";
+
+        icon.className =
+            "fa-solid fa-sun";
+
+        themeBtn.title =
+            "Switch to Dark Mode";
+
         themeBtn.setAttribute(
             "aria-label",
             "Switch to Dark Mode"
         );
+
     } else {
-        icon.className = "fa-solid fa-moon";
-        themeBtn.title = "Switch to Light Mode";
+
+        icon.className =
+            "fa-solid fa-moon";
+
+        themeBtn.title =
+            "Switch to Light Mode";
+
         themeBtn.setAttribute(
             "aria-label",
             "Switch to Light Mode"
@@ -84,29 +138,50 @@ function updateThemeIcon() {
     }
 }
 
-const savedTheme =
-    localStorage.getItem("theme") || "dark";
+let savedTheme = "dark";
+
+try {
+    savedTheme =
+        localStorage.getItem("theme") || "dark";
+} catch (error) {
+    console.warn(
+        "LocalStorage unavailable."
+    );
+}
 
 applyTheme(savedTheme);
 updateThemeIcon();
 
 if (themeBtn) {
-    themeBtn.addEventListener("click", () => {
-        const isCurrentlyLight =
-            document.body.classList.contains("light");
 
-        const newTheme =
-            isCurrentlyLight ? "dark" : "light";
+    themeBtn.addEventListener(
+        "click",
+        () => {
 
-        applyTheme(newTheme);
+            const isLight =
+                document.body.classList.contains(
+                    "light"
+                );
 
-        localStorage.setItem(
-            "theme",
-            newTheme
-        );
+            const newTheme =
+                isLight ? "dark" : "light";
 
-        updateThemeIcon();
-    });
+            applyTheme(newTheme);
+
+            try {
+                localStorage.setItem(
+                    "theme",
+                    newTheme
+                );
+            } catch (error) {
+                console.warn(
+                    "Could not save theme."
+                );
+            }
+
+            updateThemeIcon();
+        }
+    );
 }
 
 // =====================================================
@@ -128,72 +203,89 @@ const searchResults =
     document.getElementById("searchResults");
 
 const searchData = [
+
     {
         title: "Home",
         icon: "fa-house",
         target: "home"
     },
+
     {
         title: "About Us",
         icon: "fa-circle-info",
         target: "about"
     },
+
     {
         title: "Programs",
         icon: "fa-dumbbell",
         target: "programs"
     },
+
     {
         title: "Trainers",
         icon: "fa-user",
         target: "trainers"
     },
+
     {
         title: "Pricing",
         icon: "fa-tag",
         target: "pricing"
     },
+
     {
         title: "Gallery",
         icon: "fa-images",
         target: "gallery"
     },
+
     {
         title: "Blog",
         icon: "fa-newspaper",
         target: "blog"
     },
+
     {
         title: "Book a Session",
         icon: "fa-calendar-check",
         target: "booking"
     },
+
     {
         title: "Check Booking Status",
         icon: "fa-magnifying-glass",
         target: "booking-status"
     },
+
     {
         title: "Contact",
         icon: "fa-phone",
         target: "contact"
     }
+
 ];
 
 function openSearch() {
+
     if (!searchBox) return;
 
     searchBox.classList.add("active");
 
     if (searchInput) {
+
         searchInput.value = "";
-        searchInput.focus();
+
+        setTimeout(() => {
+            searchInput.focus();
+        }, 100);
     }
 
     showSearchResults("");
 }
 
 function closeSearchBox() {
+
     if (!searchBox) return;
 
     searchBox.classList.remove("active");
@@ -208,10 +300,13 @@ function closeSearchBox() {
 }
 
 function showSearchResults(query) {
+
     if (!searchResults) return;
 
     const text =
-        query.trim().toLowerCase();
+        String(query || "")
+            .trim()
+            .toLowerCase();
 
     const filtered =
         searchData.filter(item =>
@@ -221,9 +316,11 @@ function showSearchResults(query) {
         );
 
     if (filtered.length === 0) {
+
         searchResults.innerHTML = `
             <div class="no-search-results">
-                No results found.
+                <i class="fa-solid fa-face-frown"></i>
+                <span>No results found.</span>
             </div>
         `;
 
@@ -231,18 +328,25 @@ function showSearchResults(query) {
     }
 
     searchResults.innerHTML =
-        filtered.map(item => `
-            <button
-                type="button"
-                class="search-result-item"
-                data-target="${escapeHTML(item.target)}"
-            >
-                <i class="fa-solid ${escapeHTML(item.icon)}"></i>
-                <span>
-                    ${escapeHTML(item.title)}
-                </span>
-            </button>
-        `).join("");
+        filtered
+            .map(item => `
+
+                <button
+                    type="button"
+                    class="search-result-item"
+                    data-target="${escapeHTML(item.target)}"
+                >
+
+                    <i class="fa-solid ${escapeHTML(item.icon)}"></i>
+
+                    <span>
+                        ${escapeHTML(item.title)}
+                    </span>
+
+                </button>
+
+            `)
+            .join("");
 
     document
         .querySelectorAll(".search-result-item")
@@ -255,23 +359,26 @@ function showSearchResults(query) {
                     const target =
                         button.dataset.target;
 
-                    const section =
-                        document.getElementById(
-                            target
-                        );
-
                     closeSearchBox();
 
+                    const section =
+                        document.getElementById(target);
+
                     if (section) {
+
                         setTimeout(() => {
+
                             section.scrollIntoView({
                                 behavior: "smooth",
                                 block: "start"
                             });
-                        }, 100);
+
+                        }, 150);
+
                     }
                 }
             );
+
         });
 }
 
@@ -290,12 +397,15 @@ if (closeSearch) {
 }
 
 if (searchInput) {
+
     searchInput.addEventListener(
         "input",
         () => {
+
             showSearchResults(
                 searchInput.value
             );
+
         }
     );
 }
@@ -303,9 +413,21 @@ if (searchInput) {
 document.addEventListener(
     "keydown",
     event => {
+
         if (event.key === "Escape") {
             closeSearchBox();
         }
+
+        if (
+            event.ctrlKey &&
+            event.key.toLowerCase() === "k"
+        ) {
+
+            event.preventDefault();
+
+            openSearch();
+        }
+
     }
 );
 
@@ -318,33 +440,63 @@ const bookingForm =
 const bookingMessage =
     document.getElementById("bookingMessage");
 
+const dateInput =
+    document.getElementById("date");
+
+function getTodayString() {
+
+    const today =
+        new Date();
+
+    const year =
+        today.getFullYear();
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+if (dateInput) {
+    dateInput.min =
+        getTodayString();
+}
+
+function showBookingMessage(
+    message,
+    type = "error"
+) {
+
+    if (!bookingMessage) return;
+
+    bookingMessage.textContent =
+        message;
+
+    if (type === "success") {
+
+        bookingMessage.style.color =
+            "#22c55e";
+
+    } else if (type === "loading") {
+
+        bookingMessage.style.color =
+            "#ff3b30";
+
+    } else {
+
+        bookingMessage.style.color =
+            "#ef4444";
+    }
+}
+
 if (bookingForm) {
-
-    const dateInput =
-        document.getElementById("date");
-
-    function getTodayString() {
-
-        const today = new Date();
-
-        const year =
-            today.getFullYear();
-
-        const month =
-            String(today.getMonth() + 1)
-                .padStart(2, "0");
-
-        const day =
-            String(today.getDate())
-                .padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-    }
-
-    if (dateInput) {
-        dateInput.min =
-            getTodayString();
-    }
 
     bookingForm.addEventListener(
         "submit",
@@ -352,55 +504,82 @@ if (bookingForm) {
 
             event.preventDefault();
 
-            if (bookingMessage) {
-                bookingMessage.textContent =
-                    "Sending booking...";
+            const name =
+                document
+                    .getElementById("name")
+                    ?.value
+                    .trim();
 
-                bookingMessage.style.color =
-                    "#ff3b30";
+            const phone =
+                document
+                    .getElementById("phone")
+                    ?.value
+                    .trim();
+
+            const email =
+                document
+                    .getElementById("email")
+                    ?.value
+                    .trim();
+
+            const program =
+                document
+                    .getElementById("program")
+                    ?.value;
+
+            const date =
+                document
+                    .getElementById("date")
+                    ?.value;
+
+            const time =
+                document
+                    .getElementById("time")
+                    ?.value;
+
+            const message =
+                document
+                    .getElementById("message")
+                    ?.value
+                    .trim();
+
+            // -----------------------------------------
+            // FRONTEND VALIDATION
+            // -----------------------------------------
+
+            if (
+                !name ||
+                !phone ||
+                !email ||
+                !program ||
+                !date ||
+                !time
+            ) {
+
+                showBookingMessage(
+                    "Please complete all required fields."
+                );
+
+                return;
             }
 
-            const formData = {
+            if (date < getTodayString()) {
 
-                name:
-                    document
-                        .getElementById("name")
-                        ?.value
-                        .trim(),
+                showBookingMessage(
+                    "Please select today or a future date."
+                );
 
-                phone:
-                    document
-                        .getElementById("phone")
-                        ?.value
-                        .trim(),
+                return;
+            }
 
-                email:
-                    document
-                        .getElementById("email")
-                        ?.value
-                        .trim(),
+            // -----------------------------------------
+            // SEND BOOKING
+            // -----------------------------------------
 
-                program:
-                    document
-                        .getElementById("program")
-                        ?.value,
-
-                date:
-                    document
-                        .getElementById("date")
-                        ?.value,
-
-                time:
-                    document
-                        .getElementById("time")
-                        ?.value,
-
-                message:
-                    document
-                        .getElementById("message")
-                        ?.value
-                        .trim()
-            };
+            showBookingMessage(
+                "Sending booking...",
+                "loading"
+            );
 
             try {
 
@@ -412,57 +591,46 @@ if (bookingForm) {
 
                             headers: {
                                 "Content-Type":
-                                    "application/json",
-                                "Accept":
                                     "application/json"
                             },
 
                             body:
-                                JSON.stringify(
-                                    formData
-                                )
+                                JSON.stringify({
+                                    name,
+                                    phone,
+                                    email,
+                                    program,
+                                    date,
+                                    time,
+                                    message
+                                })
                         }
                     );
 
-                const contentType =
-                    response.headers.get(
-                        "content-type"
-                    ) || "";
+                let data = {};
 
-                if (!contentType.includes(
-                    "application/json"
-                )) {
+                try {
 
-                    const text =
-                        await response.text();
+                    data =
+                        await response.json();
 
-                    console.error(
-                        "Server returned:",
-                        text
-                    );
+                } catch (jsonError) {
 
-                    throw new Error(
-                        "Server returned an invalid response."
-                    );
+                    data = {};
                 }
-
-                const data =
-                    await response.json();
 
                 if (!response.ok) {
+
                     throw new Error(
                         data.message ||
-                        "Booking failed."
+                        "Booking failed. Please try again."
                     );
                 }
 
-                if (bookingMessage) {
-                    bookingMessage.textContent =
-                        "Booking submitted successfully! ✅";
-
-                    bookingMessage.style.color =
-                        "#22c55e";
-                }
+                showBookingMessage(
+                    "Booking submitted successfully! ✅",
+                    "success"
+                );
 
                 bookingForm.reset();
 
@@ -478,14 +646,10 @@ if (bookingForm) {
                     error
                 );
 
-                if (bookingMessage) {
-                    bookingMessage.textContent =
-                        error.message ||
-                        "Server connection failed.";
-
-                    bookingMessage.style.color =
-                        "#ef4444";
-                }
+                showBookingMessage(
+                    error.message ||
+                    "Unable to connect to the server."
+                );
             }
         }
     );
@@ -523,11 +687,11 @@ if (statusForm) {
             if (!email || !phone) {
 
                 if (statusResult) {
+
                     statusResult.innerHTML = `
                         <div class="status-card">
                             <p>
-                                Please enter your
-                                email and phone.
+                                Please enter your email and phone.
                             </p>
                         </div>
                     `;
@@ -537,9 +701,11 @@ if (statusForm) {
             }
 
             if (statusResult) {
+
                 statusResult.innerHTML = `
                     <div class="status-card">
                         <p>
+                            <i class="fa-solid fa-spinner fa-spin"></i>
                             Checking booking...
                         </p>
                     </div>
@@ -548,53 +714,26 @@ if (statusForm) {
 
             try {
 
-                const statusURL =
+                const url =
                     `${API_BASE}/api/bookings/status?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
 
-                console.log(
-                    "STATUS URL:",
-                    statusURL
-                );
-
                 const response =
-                    await fetch(
-                        statusURL,
-                        {
-                            method: "GET",
+                    await fetch(url);
 
-                            headers: {
-                                "Accept":
-                                    "application/json"
-                            }
-                        }
-                    );
+                let data = {};
 
-                const contentType =
-                    response.headers.get(
-                        "content-type"
-                    ) || "";
+                try {
 
-                if (!contentType.includes(
-                    "application/json"
-                )) {
+                    data =
+                        await response.json();
 
-                    const text =
-                        await response.text();
+                } catch (jsonError) {
 
-                    console.error(
-                        "Status server returned:",
-                        text
-                    );
-
-                    throw new Error(
-                        "Server returned an invalid response."
-                    );
+                    data = {};
                 }
 
-                const data =
-                    await response.json();
-
                 if (!response.ok) {
+
                     throw new Error(
                         data.message ||
                         "Booking not found."
@@ -603,45 +742,47 @@ if (statusForm) {
 
                 if (statusResult) {
 
+                    const status =
+                        data.status ||
+                        "Pending";
+
                     statusResult.innerHTML = `
+
                         <div class="status-card">
+
+                            <h3>
+                                <i class="fa-solid fa-calendar-check"></i>
+                                Booking Details
+                            </h3>
 
                             <p>
                                 <strong>Name:</strong>
-                                ${escapeHTML(
-                                    data.name
-                                )}
+                                ${escapeHTML(data.name)}
                             </p>
 
                             <p>
                                 <strong>Program:</strong>
-                                ${escapeHTML(
-                                    data.program
-                                )}
+                                ${escapeHTML(data.program)}
                             </p>
 
                             <p>
                                 <strong>Date:</strong>
-                                ${escapeHTML(
-                                    data.date
-                                )}
+                                ${escapeHTML(data.date)}
                             </p>
 
                             <p>
                                 <strong>Time:</strong>
-                                ${escapeHTML(
-                                    data.time
-                                )}
+                                ${escapeHTML(data.time)}
                             </p>
 
-                            <span class="status-badge">
-                                ${escapeHTML(
-                                    data.status ||
-                                    "Pending"
-                                )}
+                            <span class="status-badge status-${escapeHTML(
+                                status.toLowerCase()
+                            )}">
+                                ${escapeHTML(status)}
                             </span>
 
                         </div>
+
                     `;
                 }
 
@@ -655,14 +796,19 @@ if (statusForm) {
                 if (statusResult) {
 
                     statusResult.innerHTML = `
+
                         <div class="status-card">
+
                             <p>
+                                <i class="fa-solid fa-circle-exclamation"></i>
                                 ${escapeHTML(
                                     error.message ||
                                     "Booking not found."
                                 )}
                             </p>
+
                         </div>
+
                     `;
                 }
             }
@@ -671,49 +817,31 @@ if (statusForm) {
 }
 
 // =====================================================
-// ESCAPE HTML
-// =====================================================
-function escapeHTML(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-// =====================================================
 // BACK TO TOP BUTTON
 // =====================================================
 const topBtn =
     document.getElementById("topBtn");
 
+function updateTopButton() {
+
+    if (!topBtn) return;
+
+    if (window.scrollY > 500) {
+
+        topBtn.classList.add("show");
+
+    } else {
+
+        topBtn.classList.remove("show");
+    }
+}
+
 window.addEventListener(
     "scroll",
-    () => {
-
-        if (!topBtn) return;
-
-        if (window.scrollY > 500) {
-            topBtn.classList.add("show");
-        } else {
-            topBtn.classList.remove("show");
-        }
-    }
+    updateTopButton
 );
+
+updateTopButton();
 
 if (topBtn) {
 
@@ -749,13 +877,55 @@ document
                     img.style.opacity = "1";
                 }
             );
+
+            img.addEventListener(
+                "error",
+                () => {
+                    img.style.opacity = "1";
+                    console.warn(
+                        "Image failed to load:",
+                        img.src
+                    );
+                }
+            );
         }
     });
 
 // =====================================================
-// LOG LOAD STATUS
+// CLOSE SEARCH WHEN CLICKING OUTSIDE
 // =====================================================
-console.log(
-    "IRONFIT GYM website JavaScript loaded successfully! ✅"
+if (searchBox) {
+
+    searchBox.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === searchBox
+            ) {
+                closeSearchBox();
+            }
+
+        }
+    );
+}
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        console.log(
+            "IRONFIT GYM website loaded successfully! 💪"
+        );
+
+        console.log(
+            "API:",
+            API_BASE
+        );
+
+    }
 );
 ```
