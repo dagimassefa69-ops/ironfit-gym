@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRONFIT GYM | Train Hard. Stay Strong.</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+    <a href="#home" class="logo">
+        IRON<span>FIT</span>
+    </a>
+
+    <nav id="navbar" class="navbar">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#trainers">Trainers</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#blog">Blog</a>
+        <a href="#booking">Booking</a>
+        <a href="#booking-status">Status</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-icons">
+        <button id="searchBtn" type="button" title="Search" aria-label="Open Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <button id="themeBtn" type="button" title="Theme" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button id="themeBtn" aria-label="Toggle Theme">
+    <i class="fa-solid fa-moon"></i>
+</button>
+        <button id="menuBtn" type="button" title="Menu" aria-label="Toggle Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+
+<!-- ================= SEARCH OVERLAY ================= -->
+<div id="searchBox" class="search-box">
+    <div class="search-inner">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search programs, trainers, pricing..."
+            autocomplete="off"
+        >
+        <button id="closeSearch" type="button" aria-label="Close Search">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div id="searchResults" class="search-results"></div>
+</div>
+
+
+<!-- ================= HERO ================= -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <p class="hero-small">WELCOME TO IRONFIT</p>
+        <h1>
+            TRAIN HARD.<br>
+            <span>STAY STRONG.</span>
+        </h1>
+        <p>
+            Build your strength, transform your body,
+            and become the strongest version of yourself.
+        </p>
+        <div class="hero-buttons">
+            <a href="#booking" class="btn">
+                <i class="fa-solid fa-calendar-check"></i> Book a Session
+            </a>
+            <a href="#programs" class="btn btn-outline">
+                Explore Programs
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="section">
+    <div class="section-title">
+        <p>WHO WE ARE</p>
+        <h2>About <span>IRONFIT</span></h2>
+    </div>
+
+    <div class="about-grid">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80" alt="IRONFIT Gym Facility">
+        </div>
+        <div class="about-content">
+            <h3>More Than A Gym</h3>
+            <p>
+                IRONFIT GYM is a modern fitness center designed
+                to help you reach your fitness goals.
+            </p>
+            <p>
+                Whether you want to build muscle, lose weight,
+                improve your fitness, or simply live healthier,
+                our trainers and programs are here to help.
+            </p>
+            <div class="about-stats">
+                <div>
+                    <strong>10+</strong>
+                    <span>Years Experience</span>
+                </div>
+                <div>
+                    <strong>1000+</strong>
+                    <span>Members</span>
+                </div>
+                <div>
+                    <strong>15+</strong>
+                    <span>Expert Trainers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= PROGRAMS ================= -->
+<section id="programs" class="section dark-section">
+    <div class="section-title">
+        <p>WHAT WE OFFER</p>
+        <h2>Our <span>Programs</span></h2>
+    </div>
+
+    <div class="cards-grid">
+        <article class="card">
+            <div class="card-icon"><i class="fa-solid fa-dumbbell"></i></div>
+            <h3>Strength Training</h3>
+            <p>Build strength and muscle with structured weight training.</p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon"><i class="fa-solid fa-person-running"></i></div>
+            <h3>Cardio Fitness</h3>
+            <p>Improve endurance, stamina, and cardiovascular fitness.</p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+            <h3>Weight Loss</h3>
+            <p>Burn calories and build healthy habits with guided workouts.</p>
+        </article>
+
+        <article class="card">
+            <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h3>HIIT Training</h3>
+            <p>High intensity workouts designed to challenge your body.</p>
+        </article>
+    </div>
+</section>
+
+
+<!-- ================= TRAINERS ================= -->
+<section id="trainers" class="section">
+    <div class="section-title">
+        <p>MEET THE TEAM</p>
+        <h2>Expert <span>Trainers</span></h2>
+    </div>
+
+    <div class="trainers-grid">
+        <article class="trainer">
+            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=700&q=80" alt="Trainer Alex Morgan">
+            <div class="trainer-info">
+                <h3>Alex Morgan</h3>
+                <p>Strength Coach</p>
+            </div>
+        </article>
+
+        <article class="trainer">
+            <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=700&q=80" alt="Trainer Sarah Johnson">
+            <div class="trainer-info">
+                <h3>Sarah Johnson</h3>
+                <p>Fitness Coach</p>
+            </div>
+        </article>
+
+        <article class="trainer">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80" alt="Trainer Daniel Smith">
+            <div class="trainer-info">
+                <h3>Daniel Smith</h3>
+                <p>Personal Trainer</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="section dark-section">
+    <div class="section-title">
+        <p>SIMPLE PLANS</p>
+        <h2>Membership <span>Pricing</span></h2>
+    </div>
+
+    <div class="pricing-grid">
+        <article class="price-card">
+            <h3>Basic</h3>
+            <div class="price">
+                <strong>1,500</strong>
+                <span>ETB / Month</span>
+            </div>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Gym Access</li>
+                <li><i class="fa-solid fa-check"></i> Cardio Area</li>
+                <li><i class="fa-solid fa-check"></i> Locker Access</li>
+            </ul>
+            <a href="#booking" class="btn">Choose Plan</a>
+        </article>
+
+        <article class="price-card featured">
+            <div class="popular">POPULAR</div>
+            <h3>Premium</h3>
+            <div class="price">
+                <strong>2,500</strong>
+                <span>ETB / Month</span>
+            </div>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Full Gym Access</li>
+                <li><i class="fa-solid fa-check"></i> Personal Training</li>
+                <li><i class="fa-solid fa-check"></i> Fitness Assessment</li>
+                <li><i class="fa-solid fa-check"></i> Locker Access</li>
+            </ul>
+            <a href="#booking" class="btn">Choose Plan</a>
+        </article>
+
+        <article class="price-card">
+            <h3>VIP</h3>
+            <div class="price">
+                <strong>4,000</strong>
+                <span>ETB / Month</span>
+            </div>
+            <ul>
+                <li><i class="fa-solid fa-check"></i> Unlimited Access</li>
+                <li><i class="fa-solid fa-check"></i> Personal Trainer</li>
+                <li><i class="fa-solid fa-check"></i> Nutrition Guidance</li>
+                <li><i class="fa-solid fa-check"></i> Priority Support</li>
+            </ul>
+            <a href="#booking" class="btn">Choose Plan</a>
+        </article>
+    </div>
+</section>
+
+
+<!-- ================= GALLERY ================= -->
+<section id="gallery" class="section">
+    <div class="section-title">
+        <p>OUR FACILITY</p>
+        <h2>Gym <span>Gallery</span></h2>
+    </div>
+
+    <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80" alt="Gym weights area">
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=900&q=80" alt="Gym workout zone">
+        <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=900&q=80" alt="Gym cardio equipment">
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80" alt="Gym barbell station">
+        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=80" alt="Fitness training area">
+        <img src="https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=900&q=80" alt="Personal training space">
+    </div>
+</section>
+
+
+<!-- ================= BLOG ================= -->
+<section id="blog" class="section dark-section">
+    <div class="section-title">
+        <p>FITNESS KNOWLEDGE</p>
+        <h2>Latest <span>Blog</span></h2>
+    </div>
+
+    <div class="blog-grid">
+        <article class="blog-card">
+            <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=900&q=80" alt="Runner training">
+            <div>
+                <small>FITNESS</small>
+                <h3>How To Build A Stronger Body</h3>
+                <p>Learn simple training habits that can improve your strength.</p>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80" alt="Dumbbell workout">
+            <div>
+                <small>WORKOUT</small>
+                <h3>5 Tips For Better Workouts</h3>
+                <p>Make every workout more effective with these simple tips.</p>
+            </div>
+        </article>
+
+        <article class="blog-card">
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80" alt="Healthy meal balance">
+            <div>
+                <small>NUTRITION</small>
+                <h3>Fitness And Healthy Nutrition</h3>
+                <p>Discover the importance of nutrition for your fitness goals.</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+
+<!-- ================= BOOKING ================= -->
+<section id="booking" class="section">
+    <div class="section-title">
+        <p>START TODAY</p>
+        <h2>Book A <span>Session</span></h2>
+    </div>
+
+    <div class="booking-container">
+        <form id="bookingForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="09xxxxxxxx" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="program">Program</label>
+                    <select id="program" name="program" required>
+                        <option value="">Choose Program</option>
+                        <option value="Strength Training">Strength Training</option>
+                        <option value="Cardio Fitness">Cardio Fitness</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="HIIT Training">HIIT Training</option>
+                        <option value="Personal Training">Personal Training</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell us anything..."></textarea>
+            </div>
+
+            <button type="submit" class="btn submit-btn">
+                <i class="fa-solid fa-calendar-check"></i> Submit Booking
+            </button>
+
+            <p id="bookingMessage" class="booking-message"></p>
+        </form>
+    </div>
+</section>
+
+
+<!-- ================= BOOKING STATUS ================= -->
+<section id="booking-status" class="section dark-section">
+    <div class="section-title">
+        <p>CHECK YOUR BOOKING</p>
+        <h2>Booking <span>Status</span></h2>
+    </div>
+
+    <div class="status-container">
+        <form id="statusForm">
+            <div class="form-group">
+                <label for="statusEmail">Email</label>
+                <input type="email" id="statusEmail" placeholder="Your booking email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="statusPhone">Phone</label>
+                <input type="tel" id="statusPhone" placeholder="Your booking phone" required>
+            </div>
+
+            <button type="submit" class="btn">
+                <i class="fa-solid fa-magnifying-glass"></i> Check Status
+            </button>
+        </form>
+
+        <div id="statusResult" class="status-result"></div>
+    </div>
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="section">
+    <div class="section-title">
+        <p>GET IN TOUCH</p>
+        <h2>Contact <span>Us</span></h2>
+    </div>
+
+    <div class="contact-grid">
+        <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+                <h3>Location</h3>
+                <p>Addis Ababa, Ethiopia</p>
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+                <h3>Phone</h3>
+                <p>+251 911 111 111</p>
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+                <h3>Email</h3>
+                <p>info@ironfitgym.com</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="footer-logo">IRON<span>FIT</span></div>
+    <p>Train Hard. Stay Strong.</p>
+    <p class="copyright">&copy; 2026 IRONFIT GYM. All Rights Reserved.</p>
+</footer>
+
+
+<!-- ================= BACK TO TOP ================= -->
+<button id="topBtn" type="button" title="Back to top" aria-label="Back to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<!-- JavaScript File -->
+<script src="./script.js"></script>
+
+</body>
+</html>
