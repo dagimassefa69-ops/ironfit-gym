@@ -1,0 +1,797 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IRONFIT GYM - Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f4f5f7;
+            color: #171717;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        header span {
+            color: #ff3b30;
+        }
+
+        .logout {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card strong {
+            font-size: 28px;
+        }
+
+        .pending strong {
+            color: #e6a700;
+        }
+
+        .confirmed strong {
+            color: #159447;
+        }
+
+        .completed strong {
+            color: #2477d4;
+        }
+
+        .cancelled strong {
+            color: #e53935;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #searchInput {
+            flex: 1;
+            min-width: 250px;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        #searchInput:focus {
+            border-color: #ff3b30;
+        }
+
+        .btn {
+            border: none;
+            padding: 13px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .refresh {
+            background: #111;
+            color: white;
+        }
+
+        .home {
+            background: #eee;
+            color: #111;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #111;
+            color: white;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .delete-btn {
+            background: #e53935;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px 12px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .welcome h2 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>IRONFIT <span>GYM</span> — Admin</h1>
+    <button class="logout" onclick="logout()">Logout</button>
+</header>
+
+<main class="container">
+
+    <div class="welcome">
+        <h2>Admin Dashboard</h2>
+        <p>Manage gym bookings and customer requests.</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total Bookings</h3>
+            <strong id="totalBookings">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Today's Bookings</h3>
+            <strong id="todayBookings">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Programs</h3>
+            <strong id="programCount">0</strong>
+        </div>
+
+        <div class="card pending">
+            <h3>Pending</h3>
+            <strong id="pendingCount">0</strong>
+        </div>
+
+        <div class="card confirmed">
+            <h3>Confirmed</h3>
+            <strong id="confirmedCount">0</strong>
+        </div>
+
+        <div class="card cancelled">
+            <h3>Cancelled</h3>
+            <strong id="cancelledCount">0</strong>
+        </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search name, phone, email, program..."
+        >
+
+        <button class="btn refresh" onclick="loadBookings()">
+            🔄 Refresh
+        </button>
+
+        <button class="btn home" onclick="goHome()">
+            🏠 Website
+        </button>
+
+    </div>
+
+    <div id="message"></div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Program</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="bookingTable">
+                <tr>
+                    <td colspan="9" class="loading">
+                        Loading bookings...
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+<script>
+
+const API_BASE = "https://ironfit-gym.onrender.com";
+
+let allBookings = [];
+
+
+/* =========================
+   LOAD BOOKINGS
+========================= */
+
+async function loadBookings() {
+
+    const table = document.getElementById("bookingTable");
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="9" class="loading">
+                Loading bookings...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/api/bookings`,
+            {
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load bookings.");
+        }
+
+        const contentType =
+            response.headers.get("content-type") || "";
+
+        if (!contentType.includes("application/json")) {
+            throw new Error("Server returned invalid data.");
+        }
+
+        allBookings = await response.json();
+
+        updateStats(allBookings);
+        displayBookings(allBookings);
+
+    } catch (error) {
+
+        console.error(error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" class="loading">
+                    ❌ Failed to load bookings.
+                </td>
+            </tr>
+        `;
+
+        showMessage(
+            "Could not connect to the server.",
+            true
+        );
+    }
+}
+
+
+/* =========================
+   DISPLAY BOOKINGS
+========================= */
+
+function displayBookings(bookings) {
+
+    const table =
+        document.getElementById("bookingTable");
+
+    if (!bookings.length) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" class="loading">
+                    No bookings found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML = "";
+
+    bookings.forEach(booking => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${escapeHTML(booking.name)}</td>
+
+            <td>${escapeHTML(booking.phone)}</td>
+
+            <td>${escapeHTML(booking.email)}</td>
+
+            <td>${escapeHTML(booking.program)}</td>
+
+            <td>${escapeHTML(booking.date)}</td>
+
+            <td>${escapeHTML(booking.time)}</td>
+
+            <td>
+
+                <select
+                    onchange="changeStatus('${booking._id}', this.value)"
+                >
+
+                    <option value="Pending"
+                        ${booking.status === "Pending" ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option value="Confirmed"
+                        ${booking.status === "Confirmed" ? "selected" : ""}>
+                        Confirmed
+                    </option>
+
+                    <option value="Completed"
+                        ${booking.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                    <option value="Cancelled"
+                        ${booking.status === "Cancelled" ? "selected" : ""}>
+                        Cancelled
+                    </option>
+
+                </select>
+
+            </td>
+
+            <td>
+                ${booking.createdAt
+                    ? new Date(booking.createdAt).toLocaleDateString()
+                    : "-"}
+            </td>
+
+            <td>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteBooking('${booking._id}')"
+                >
+                    Delete
+                </button>
+
+            </td>
+        `;
+
+        table.appendChild(row);
+
+    });
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+    .getElementById("searchInput")
+    .addEventListener("input", function () {
+
+        const search =
+            this.value.trim().toLowerCase();
+
+        if (!search) {
+            displayBookings(allBookings);
+            return;
+        }
+
+        const filtered =
+            allBookings.filter(booking => {
+
+                return (
+
+                    String(booking.name || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    String(booking.phone || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    String(booking.email || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    String(booking.program || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    String(booking.date || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    String(booking.status || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                );
+
+            });
+
+        displayBookings(filtered);
+
+    });
+
+
+/* =========================
+   UPDATE STATS
+========================= */
+
+function updateStats(bookings) {
+
+    document.getElementById("totalBookings")
+        .textContent = bookings.length;
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    const todayCount =
+        bookings.filter(
+            booking => booking.date === today
+        ).length;
+
+    document.getElementById("todayBookings")
+        .textContent = todayCount;
+
+
+    const programs =
+        new Set(
+            bookings.map(
+                booking => booking.program
+            )
+        );
+
+    document.getElementById("programCount")
+        .textContent = programs.size;
+
+
+    document.getElementById("pendingCount")
+        .textContent =
+        bookings.filter(
+            b => b.status === "Pending"
+        ).length;
+
+
+    document.getElementById("confirmedCount")
+        .textContent =
+        bookings.filter(
+            b => b.status === "Confirmed"
+        ).length;
+
+
+    document.getElementById("cancelledCount")
+        .textContent =
+        bookings.filter(
+            b => b.status === "Cancelled"
+        ).length;
+}
+
+
+/* =========================
+   CHANGE STATUS
+========================= */
+
+async function changeStatus(id, status) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/bookings/${id}/status`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        status: status
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to update status."
+            );
+        }
+
+        showMessage(
+            "Status updated successfully! ✅"
+        );
+
+        await loadBookings();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Failed to update status.",
+            true
+        );
+
+    }
+}
+
+
+/* =========================
+   DELETE BOOKING
+========================= */
+
+async function deleteBooking(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this booking?"
+        );
+
+    if (!confirmed) return;
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/bookings/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Failed to delete booking."
+            );
+        }
+
+        showMessage(
+            "Booking deleted successfully! ✅"
+        );
+
+        await loadBookings();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Failed to delete booking.",
+            true
+        );
+
+    }
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(message, error = false) {
+
+    const element =
+        document.getElementById("message");
+
+    element.textContent = message;
+
+    element.style.color =
+        error ? "#e53935" : "#159447";
+
+    setTimeout(() => {
+        element.textContent = "";
+    }, 3000);
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   WEBSITE
+========================= */
+
+function goHome() {
+
+    window.location.href = "./index.html";
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    window.location.href = "./index.html";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadBookings();
+
+</script>
+
+</body>
+</html>
+```
